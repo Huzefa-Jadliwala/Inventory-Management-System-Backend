@@ -23,7 +23,7 @@ server.use(morgan('default'));
 
 //routes
 
-
+console.log('Huzefa here!!')
 
 //instantiating the application
 const port = process.env.PORT || 3000; 
