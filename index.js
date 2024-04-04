@@ -1,33 +1,34 @@
-require('dotenv').config();
-const express = require('express');
-const morgan = require('morgan');
-const mongoose = require('mongoose');
+require("dotenv").config();
+const express = require("express");
+const morgan = require("morgan");
+const mongoose = require("mongoose");
 
 const server = express();
-const app = require('http').createServer(server);
+
+// Import routes
+const productRoutes = require("./routes/products");
+const categoryRoutes = require("./routes/category");
 
 //db connection
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));
 
 async function main() {
   await mongoose.connect(process.env.DBConnector);
-  console.log('database connected')
+  console.log("database connected");
 }
-
 
 //middlewares
 server.use(express.json());
 server.use(express.urlencoded());
-server.use(morgan('default'));
+server.use(morgan("default"));
 
-
-//routes
-
-console.log('Huzefa here!!')
+// Routes
+server.use("/products", productRoutes);
+server.use("/categories", categoryRoutes);
 
 //instantiating the application
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-    console.log('server started');
-  });
+server.listen(port, () => {
+  console.log("server started");
+});
