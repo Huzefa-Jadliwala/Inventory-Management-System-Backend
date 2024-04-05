@@ -8,4 +8,4 @@ Assuming you have already installed Node. Then run the following command
 `npm install`
 
 To start the devolopment server locally, run the following command
-`npm run dev`
+`npm run start`
