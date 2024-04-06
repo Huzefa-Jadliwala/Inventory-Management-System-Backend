@@ -11,11 +11,5 @@ export const MongoDBErrorHandler = (error) => {
     );
   }
 
-  throw new HttpException(
-    {
-      status: HttpStatus.INTERNAL_SERVER_ERROR,
-      error: error.message,
-    },
-    HttpStatus.INTERNAL_SERVER_ERROR,
-  );
+  throw error;
 };

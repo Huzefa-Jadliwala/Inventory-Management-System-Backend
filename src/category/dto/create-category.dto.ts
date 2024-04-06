@@ -2,9 +2,9 @@
 
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { CategorySchema } from '../schema/category.schema';
+import { CategorySchema } from '../schemas/category.schema';
 
-export class CategoryDto {
+export class CreateCategoryDto {
   @ApiProperty({
     description: 'The name of the category',
     example: 'Electronics',
