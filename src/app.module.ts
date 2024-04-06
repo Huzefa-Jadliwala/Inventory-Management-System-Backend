@@ -5,6 +5,7 @@ import { ProductsModule } from './products/products.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { CategoryModule } from './category/category.module';
+import { CoreModule } from './core/core.module';
 
 @Module({
   imports: [
@@ -12,9 +13,10 @@ import { CategoryModule } from './category/category.module';
       envFilePath: '.env',
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.DBConnector),
+    MongooseModule.forRoot(process.env.DBConnector ?? ''),
     ProductsModule,
     CategoryModule,
+    CoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],
