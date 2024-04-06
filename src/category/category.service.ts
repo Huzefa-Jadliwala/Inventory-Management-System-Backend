@@ -3,6 +3,7 @@ import { Category } from './schema/category.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { CategoryDto } from './dto/category.dto';
+import { MongoDBErrorHandler } from 'src/core/handlers/mongodb-error.handler';
 
 @Injectable()
 export class CategoryService {
@@ -16,7 +17,7 @@ export class CategoryService {
       const savedCategory = await createdCategory.save();
       return savedCategory;
     } catch (error) {
-      throw new Error(`Could not create category: ${error.message}`);
+      return MongoDBErrorHandler(error);
     }
   }
 
