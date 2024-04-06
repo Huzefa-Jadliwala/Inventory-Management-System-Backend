@@ -7,5 +7,7 @@ For cloning the repo, please use the following command
 Assuming you have already installed Node. Then run the following command
 `npm install`
 
-To start the devolopment server locally, run the following command
-`npm run start`
+To start the production server locally, run the following command
+```
+npm run start
+```
