@@ -1,21 +1,24 @@
-/* eslint-disable prettier/prettier */
-import { NestFactory, Reflector } from '@nestjs/core';
+import {
+  NestFactory,
+  // Reflector
+} from '@nestjs/core';
 import { AppModule } from './app.module';
 import {
-  ClassSerializerInterceptor,
+  // ClassSerializerInterceptor,
   ValidationPipe,
   VersioningType,
 } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
-import { HttpExceptionFilter } from './http-exceptions.filter';
-// eslint-disable-next-line prettier/prettier
+import { HttpExceptionFilter } from './exception-filters/http-exceptions.filter';
+import { CastExceptionFilter } from './exception-filters/cast-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new CastExceptionFilter());
 
   // we can use this line to globally enable
   // for all controllers

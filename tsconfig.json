@@ -10,6 +10,14 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "@src/*": [
+        "src/*"
+      ],
+      "@assets/*": [
+        "assets/*"
+      ],
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
