@@ -19,7 +19,7 @@ async function bootstrap() {
 
   // we can use this line to globally enable
   // for all controllers
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  // app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   app.enableCors({
     // origin: ['https://localhost:3000'],

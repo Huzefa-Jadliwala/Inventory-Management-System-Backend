@@ -11,8 +11,13 @@ export class CategoryService {
   ) {}
 
   async create(createCategoryDto: CategoryDto): Promise<Category> {
-    const createdCategory = new this.categoryModel(createCategoryDto);
-    return createdCategory.save();
+    try {
+      const createdCategory = new this.categoryModel(createCategoryDto);
+      const savedCategory = await createdCategory.save();
+      return savedCategory;
+    } catch (error) {
+      throw new Error(`Could not create category: ${error.message}`);
+    }
   }
 
   async findAll(): Promise<Category[]> {
