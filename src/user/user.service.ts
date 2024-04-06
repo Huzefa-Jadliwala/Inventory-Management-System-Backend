@@ -4,6 +4,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import * as mongoose from 'mongoose';
+import { GetUserDto } from './dto/get-user.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UserService {
@@ -22,12 +24,17 @@ export class UserService {
     return res;
   }
 
-  async findById(id: string): Promise<User | null> {
-    const res = this.userModel.findById(id);
+  async findById(id: string): Promise<GetUserDto> {
+    const res = this.userModel
+      .findById(id)
+      .select('-password -__v -email')
+      .lean();
+    console.log(res);
     if (!res) {
       throw new NotFoundException(`User with ID ${res} not found`);
     }
-    return res;
+    const dummy = plainToInstance(GetUserDto, res);
+    return dummy;
   }
 
   async updateById(id: string, user: User): Promise<User | null> {

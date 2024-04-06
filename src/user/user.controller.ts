@@ -21,8 +21,9 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { GetUserDto } from './dto/get-user.dto';
 
-@ApiTags('users') // Add ApiTags decorator with 'users'
+@ApiTags('users') // Add Api Tags decorator with 'users'
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -56,7 +57,7 @@ export class UserController {
   @ApiBody({}) // Add ApiBody decorator to specify the request body type
   @ApiConsumes('application/json')
   @ApiProduces('application/json')
-  async getUser(@Param('id') id: string): Promise<User | null> {
+  async getUser(@Param('id') id: string): Promise<GetUserDto> {
     return this.userService.findById(id);
   }
 
