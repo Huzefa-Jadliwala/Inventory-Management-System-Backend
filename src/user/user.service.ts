@@ -25,10 +25,7 @@ export class UserService {
   }
 
   async findById(id: string): Promise<GetUserDto> {
-    const res = this.userModel
-      .findById(id)
-      .select('-password -__v -email')
-      .lean();
+    const res = this.userModel.findById(id).lean();
     console.log(res);
     if (!res) {
       throw new NotFoundException(`User with ID ${res} not found`);
@@ -37,7 +34,7 @@ export class UserService {
     return dummy;
   }
 
-  async updateById(id: string, user: User): Promise<User | null> {
+  async updateById(id: string, user: UpdateUserDto): Promise<GetUserDto> {
     const res = this.userModel.findByIdAndUpdate(id, user, {
       new: true,
       runValidators: true,
@@ -45,14 +42,16 @@ export class UserService {
     if (!res) {
       throw new NotFoundException(`User with ID ${res} not found`);
     }
-    return res;
+    const dummy = plainToInstance(GetUserDto, res);
+    return dummy;
   }
 
-  async deleteById(id: string): Promise<User | null> {
+  async deleteById(id: string): Promise<GetUserDto> {
     const res = this.userModel.findByIdAndDelete(id);
     if (!res) {
       throw new NotFoundException(`User with ID ${res} not found`);
     }
-    return res;
+    const dummy = plainToInstance(GetUserDto, res);
+    return dummy;
   }
 }

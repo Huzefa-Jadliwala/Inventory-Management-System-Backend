@@ -1,32 +1,99 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import mongoose from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Location } from './entities/location.entity';
+import { GetLocationDto } from './dto/get-location.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class LocationsService {
   constructor(
     @InjectModel(Location.name) private locationModel: mongoose.Model<Location>,
   ) {}
-  create(createLocationDto: CreateLocationDto) {
-    return 'This action adds a new location';
+
+  async findAll(): Promise<GetLocationDto[]> {
+    try {
+      const res = await this.locationModel.find();
+      const dummy = plainToInstance(GetLocationDto, res);
+      return dummy;
+    } catch (e) {
+      throw new NotFoundException(e.message);
+    }
+  }
+  async create(createLocationDto: CreateLocationDto): Promise<GetLocationDto> {
+    try {
+      const createdLocation = new this.locationModel(createLocationDto);
+      const res = createdLocation.save();
+      const dummy = plainToInstance(GetLocationDto, res);
+      return dummy;
+    } catch (e) {
+      throw new NotFoundException(e.message);
+    }
   }
 
-  async findAll(): Promise<Location[]> {
-    return await this.locationModel.find();
+  async findById(id: string): Promise<GetLocationDto> {
+    try {
+      const res = await this.locationModel.findById(id);
+      if (!res) {
+        throw new NotFoundException(`Location with ID ${id} not found`);
+      }
+      const dummy = plainToInstance(GetLocationDto, res);
+      return dummy;
+    } catch (e) {
+      throw new NotFoundException(e.message);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} location`;
+  async UpdateById(
+    id: string,
+    updateLocationDto: UpdateLocationDto,
+  ): Promise<GetLocationDto> {
+    try {
+      const res = await this.locationModel.findByIdAndUpdate(
+        id,
+        updateLocationDto,
+      );
+      if (!res) {
+        throw new NotFoundException(`Location with ID ${id} not found`);
+      }
+      const dummy = plainToInstance(GetLocationDto, res);
+      return dummy;
+    } catch (e) {
+      throw new NotFoundException(e.message);
+    }
   }
 
-  update(id: number, updateLocationDto: UpdateLocationDto) {
-    return `This action updates a #${id} location`;
+  async DeleteById(id: string): Promise<GetLocationDto> {
+    try {
+      const res = await this.locationModel.findByIdAndDelete(id);
+      if (!res) {
+        throw new NotFoundException(`Location with ID ${id} not found`);
+      }
+      const dummy = plainToInstance(GetLocationDto, res);
+      return dummy;
+    } catch (e) {
+      throw new NotFoundException(e.message);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} location`;
+  async findByUserId(userId: string): Promise<GetLocationDto[]> {
+    try {
+      const res = await this.locationModel.find({ user_id: userId });
+      if (!res) {
+        throw new NotFoundException(
+          `Location with User ID ${userId} not found`,
+        );
+      }
+      const dummy = plainToInstance(GetLocationDto, res);
+      return dummy;
+    } catch (e) {
+      throw new NotFoundException(e.message);
+    }
   }
 }

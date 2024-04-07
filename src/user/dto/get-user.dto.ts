@@ -3,14 +3,25 @@ import { Type } from '../entities/user.entity';
 
 // create-user.dto.ts
 import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
-
+import { Exclude, Expose } from 'class-transformer';
+@Exclude()
 export class GetUserDto {
+  @ApiProperty({
+    description: 'this is the unique id of the user',
+    example: '6611bfde3a1324482976c27c',
+  })
+  @IsNotEmpty()
+  @IsString()
+  @Expose()
+  _id: string;
+  
   @ApiProperty({
     description: 'this is the name of the user',
     example: 'John',
   })
   @IsNotEmpty()
   @IsString()
+  @Expose()
   name: string;
 
   @ApiProperty({
@@ -19,6 +30,7 @@ export class GetUserDto {
   })
   @IsNotEmpty()
   @IsEmail()
+  @Expose()
   email: string;
 
   @ApiProperty({
@@ -27,5 +39,6 @@ export class GetUserDto {
   })
   @IsNotEmpty()
   @IsEnum(Type)
+  @Expose()
   type: Type;
 }

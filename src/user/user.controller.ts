@@ -71,7 +71,7 @@ export class UserController {
   async updateUser(
     @Body() body: UpdateUserDto,
     @Param('id') id: string,
-  ): Promise<User | null> {
+  ): Promise<GetUserDto> {
     return this.userService.updateById(id, body);
   }
 
@@ -82,7 +82,7 @@ export class UserController {
   @ApiBody({}) // Add ApiBody decorator to specify the request body type
   @ApiConsumes('application/json')
   @ApiProduces('application/json')
-  async deleteUser(@Param('id') id: string): Promise<User | null> {
+  async deleteUser(@Param('id') id: string): Promise<GetUserDto> {
     return this.userService.deleteById(id);
   }
 }
