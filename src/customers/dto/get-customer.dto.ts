@@ -2,7 +2,16 @@ import { ApiConsumes, ApiProperty } from '@nestjs/swagger';
 import { Exclude, Expose } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
 @Exclude()
-export class CreateCustomerDto {
+export class GetCustomerDto {
+  @ApiProperty({
+    description: 'this is the unique id of the customer',
+    example: '6611bfde3a1334482976c27c',
+  })
+  @IsNotEmpty()
+  @IsString()
+  @Expose()
+  _id: string;
+
   @ApiProperty({
     description: 'this is the name of the customer',
     example: 'ABC Private Limited',

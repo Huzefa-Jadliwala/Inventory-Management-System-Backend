@@ -8,7 +8,6 @@ import { LocationSchema } from './entities/location.entity';
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Location', schema: LocationSchema }]),
-    // UserModule // Import the UserModule here
   ],
   controllers: [LocationsController],
   providers: [LocationsService],
